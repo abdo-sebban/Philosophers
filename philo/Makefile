@@ -1,10 +1,10 @@
 MAGENTA  = "\033[1;35m"
 RESET    = "\033[0m"
 NAME 	 = philo
-SRCS 	 = main.c utils.c utils2.c
+SRCS 	 = main.c utils.c utils2.c init.c ft_clean.c
 OBJS 	 = $(SRCS:.c=.o)
 CC  	 = cc
-CFLAGS	 = -Wall -Wextra -Werror -pthread
+CFLAGS	 = -Wall -Wextra -Werror -fsanitize=thread  #-pthread
 
 all: $(NAME) ascii
 

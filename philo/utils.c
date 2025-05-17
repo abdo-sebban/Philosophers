@@ -6,7 +6,7 @@
 /*   By: asebban <asebban@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 14:04:00 by asebban           #+#    #+#             */
-/*   Updated: 2025/05/17 14:53:06 by asebban          ###   ########.fr       */
+/*   Updated: 2025/05/17 19:16:44 by asebban          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,14 @@
 int	ft_isdigit(int c)
 {
 	return (c >= '0' && c <= '9');
+}
+
+long long get_time_start(void)
+{
+    struct  timeval tv;
+
+    gettimeofday(&tv, NULL);
+    return ((tv.tv_sec * 1000) + (tv.tv_usec / 1000));
 }
 
 int	ft_atoi(const char *str)

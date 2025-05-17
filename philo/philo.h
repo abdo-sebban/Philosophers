@@ -6,16 +6,19 @@
 /*   By: asebban <asebban@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 13:41:04 by asebban           #+#    #+#             */
-/*   Updated: 2025/05/17 14:52:49 by asebban          ###   ########.fr       */
+/*   Updated: 2025/05/17 19:18:32 by asebban          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PHILO_H
 # define PHILO_H
 
-# include <stdio.h>
+# include <stdio.h> // maybe i dont use this
 # include <pthread.h>
 # include <unistd.h>
+# include <sys/time.h>
+#include <string.h>
+#include <stdlib.h>
 
 # define YELLOW  "\033[1;33m"
 # define RED "\033[1;31m"
@@ -54,5 +57,8 @@ int		err(char *str);
 int		ft_isdigit(int c);
 int		ft_atoi(const char *str);
 void	ft_usage(void);
-
+void    ft_clean(t_info *info);
+int		init_philos(t_info *info);
+int			init_mutexes(t_info *info);
+long long	get_time_start(void);
 #endif
