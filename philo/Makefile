@@ -1,7 +1,7 @@
 MAGENTA  = "\033[1;35m"
 RESET    = "\033[0m"
 NAME 	 = philo
-SRCS 	 = main.c utils.c utils2.c init.c ft_clean.c
+SRCS 	 = main.c utils.c utils2.c init.c ft_clean.c action.c check_ate_or_death.c init_info.c
 OBJS 	 = $(SRCS:.c=.o)
 CC  	 = cc
 CFLAGS	 = -Wall -Wextra -Werror -fsanitize=thread  #-pthread

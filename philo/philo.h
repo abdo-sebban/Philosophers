@@ -6,7 +6,7 @@
 /*   By: asebban <asebban@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 13:41:04 by asebban           #+#    #+#             */
-/*   Updated: 2025/05/17 19:18:32 by asebban          ###   ########.fr       */
+/*   Updated: 2025/05/29 11:11:37 by asebban          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@
 # define RESET   "\033[0m"
 # define BLUE    "\033[1;34m"
 
+typedef struct s_info t_info;
 typedef struct s_philo
 {
 	size_t				id;
@@ -33,7 +34,7 @@ typedef struct s_philo
 	long long			last_meal_time;
 	int					left_fork;
 	int					right_fork;
-	struct s_info		*info;
+	t_info				*info;
 }	t_philo;
 
 typedef struct s_info
@@ -61,4 +62,10 @@ void    ft_clean(t_info *info);
 int		init_philos(t_info *info);
 int			init_mutexes(t_info *info);
 long long	get_time_start(void);
+void	print_status(t_philo *philo, char *str);
+void    *philo_routine(void *arg);
+void	smart_sleep(long long time, t_info *info);
+int	check_all_ate(t_info *info);
+int	check_death(t_philo *philo, t_info *info);
+t_info  *alloc_info(void);
 #endif
