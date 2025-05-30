@@ -6,26 +6,27 @@
 /*   By: asebban <asebban@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 13:41:04 by asebban           #+#    #+#             */
-/*   Updated: 2025/05/30 12:08:12 by asebban          ###   ########.fr       */
+/*   Updated: 2025/05/30 16:38:49 by asebban          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PHILO_H
 # define PHILO_H
 
-# include <stdio.h> // maybe i dont use this
+# include <stdio.h>
 # include <pthread.h>
 # include <unistd.h>
 # include <sys/time.h>
-#include <string.h>
-#include <stdlib.h>
+# include <string.h>
+# include <stdlib.h>
+# include <stdbool.h>
 
 # define YELLOW  "\033[1;33m"
 # define RED "\033[1;31m"
 # define RESET   "\033[0m"
 # define BLUE    "\033[1;34m"
 
-typedef struct s_info t_info;
+typedef struct s_info	t_info;
 typedef struct s_philo
 {
 	size_t				id;
@@ -54,21 +55,26 @@ typedef struct s_info
 	t_philo			*philos;
 }	t_info;
 
-int		err(char *str);
-int		ft_isdigit(int c);
-int		ft_atoi(const char *str);
-void	ft_usage(void);
-void    ft_clean(t_info *info);
-int		init_philos(t_info *info);
+int			err(char *str);
+int			ft_isdigit(int c);
+int			ft_atoi(const char *str);
+void		ft_usage(void);
+void		ft_clean(t_info *info);
+int			init_philos(t_info *info);
 int			init_mutexes(t_info *info);
 long long	get_time_start(void);
-void	print_status(t_philo *philo, char *str);
-void    *philo_routine(void *arg);
-void	smart_sleep(long long time, t_info *info);
-int	check_all_ate(t_info *info);
-int	check_death(t_philo *philo, t_info *info);
-t_info  *alloc_info(void);
-void	*monitor(void *arg);
-long long get_current_time(void);
-int is_dead(t_info *info);
+void		print_status(t_philo *philo, char *str);
+void		*philo_routine(void *arg);
+void		smart_sleep(long long time, t_info *info);
+int			check_all_ate(t_info *info);
+int			check_death(t_philo *philo, t_info *info);
+t_info		*alloc_info(void);
+void		*monitor(void *arg);
+void		one_philo(t_philo *philo);
+void		think(t_philo *philo);
+void		drop_forks(t_philo *philo);
+void		eat(t_philo *philo);
+void		take_forks(t_philo *philo);
+bool		check_death1(t_philo *philo);
+
 #endif

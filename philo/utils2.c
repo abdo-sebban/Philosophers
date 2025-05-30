@@ -6,7 +6,7 @@
 /*   By: asebban <asebban@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 14:45:35 by asebban           #+#    #+#             */
-/*   Updated: 2025/05/30 15:40:52 by asebban          ###   ########.fr       */
+/*   Updated: 2025/05/30 16:38:34 by asebban          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,4 +45,9 @@ int	err(char *str)
 	ft_putstr(str);
 	ft_putstr(RESET);
 	return (1);
+}
+
+int	ft_isdigit(int c)
+{
+	return (c >= '0' && c <= '9');
 }

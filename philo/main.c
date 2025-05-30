@@ -6,7 +6,7 @@
 /*   By: asebban <asebban@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 13:40:18 by asebban           #+#    #+#             */
-/*   Updated: 2025/05/30 15:40:10 by asebban          ###   ########.fr       */
+/*   Updated: 2025/05/30 16:39:00 by asebban          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,22 +17,20 @@ int	is_valid_arg(int ac, char **av)
 	int	index;
 	int	j;
 
-	//philo no more than 200
 	if (ac != 5 && ac != 6)
 		return (err("Error: Wrong number of arguments\n"));
 	index = 1;
 	while (index < ac)
 	{
 		j = 0;
-		
 		while (av[index][j])
 		{
 			if (!ft_isdigit(av[index][j]))
-				return (err("Error: Arguments must be positive integers\n"));//./philo +2 80 200 200  //./philo "  2" 80 200 200   //./philo "  2    8" 80 200 200
+				return (err("Error: Arguments must be positive integers\n"));
 			j++;
 		}
 		if (ft_atoi(av[index]) <= 0)
-			return (err("Error: Arguments must be greater than 0\n")); // overflow
+			return (err("Error: Arguments must be greater than 0\n"));
 		index++;
 	}
 	return (0);
@@ -58,36 +56,6 @@ int	init_info(t_info *info, int ac, char **av)
 	return (0);
 }
 
-void	*monitor(void *arg)
-{
-	t_info	*info;
-	int		i;
-
-	info = (t_info *)arg;
-	while (1)
-	{
-		pthread_mutex_lock(&info->death_lock);
-		if (info->someone_died)
-		{
-			pthread_mutex_unlock(&info->death_lock);
-			break;
-		}
-		pthread_mutex_unlock(&info->death_lock);
-
-		i = 0;
-		while (i < info->numbers_of_philos)
-		{
-			if (check_death(&info->philos[i], info))
-				return (NULL);
-			i++;
-		}
-		if (check_all_ate(info))
-			return (NULL);
-		usleep(1000);
-	}
-	return (NULL);
-}
-
 int	create_threads(t_info *info)
 {
 	int			i;
@@ -96,7 +64,8 @@ int	create_threads(t_info *info)
 	i = 0;
 	while (i < info->numbers_of_philos)
 	{
-		if (pthread_create(&info->philos[i].thread, NULL, philo_routine, &info->philos[i]))
+		if (pthread_create(&info->philos[i].thread, NULL, \
+philo_routine, &info->philos[i]))
 			return (err("Error: Thread creation failed\n"));
 		i++;
 	}
@@ -124,9 +93,9 @@ int	main(int ac, char **av)
 	if (is_valid_arg(ac, av))
 		return (ft_usage(), 1);
 	if (init_info(info, ac, av))
-        return (ft_clean(info), 1);
+		return (ft_clean(info), 1);
 	if (create_threads(info))
-        return (ft_clean(info), 1);
+		return (ft_clean(info), 1);
 	ft_clean(info);
 	return (0);
 }

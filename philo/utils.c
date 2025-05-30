@@ -6,116 +6,73 @@
 /*   By: asebban <asebban@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 14:04:00 by asebban           #+#    #+#             */
-/*   Updated: 2025/05/30 15:40:37 by asebban          ###   ########.fr       */
+/*   Updated: 2025/05/30 17:30:59 by asebban          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-int	ft_isdigit(int c)
+long	long	get_time_start(void)
 {
-	return (c >= '0' && c <= '9');
+	struct timeval	tv;
+
+	gettimeofday(&tv, NULL);
+	return ((tv.tv_sec * 1000) + (tv.tv_usec / 1000));
 }
 
-long long get_time_start(void)
+static int	skips(const char *str, int *sign)
 {
-    struct  timeval tv;
+	int	i;
 
-    gettimeofday(&tv, NULL);
-    return ((tv.tv_sec * 1000) + (tv.tv_usec / 1000));
+	i = 0;
+	while ((str[i] >= 9 && str[i] <= 13) || str[i] == 32)
+		i++;
+	if (str[i] == '-' || str[i] == '+')
+	{
+		if (str[i] == '-')
+			*sign = -1;
+		i++;
+	}
+	return (i);
 }
 
 int	ft_atoi(const char *str)
 {
-	long	num;
+	long	nbr;
+	int		i;
 	int		sign;
+	long	tmp;
 
-	num = 0;
+	nbr = 0;
 	sign = 1;
-	while (*str == ' ' || (*str >= '\t' && *str <= '\r'))
-		str++;
-	if (*str == '-')
-		sign = -1;
-	if (*str == '-' || *str == '+')
-		str++;
-	while (*str >= '0' && *str <= '9')
+	tmp = 0;
+	i = skips(str, &sign);
+	while (str[i] >= '0' && str[i] <= '9')
 	{
-		num = num * 10 + (*str - '0');
-		str++;
+		tmp = nbr;
+		nbr = nbr * 10 + str[i] - '0';
+		if (nbr / 10 != tmp && sign == 1)
+			return (-1);
+		else if (nbr / 10 != tmp && sign == -1)
+			return (0);
+		i++;
 	}
-	return ((int)(num * sign));
+	return ((int)nbr * sign);
 }
 
-
-// void	print_status(t_philo *philo, char *str)
-// {
-// 	long long time;
-	
-// 	(void )str;
-// 	pthread_mutex_lock(&philo->info->write_lock);
-// 	time = get_time_start() - philo->info->time_start;
-// 	if (!philo->info->someone_died)
-// 		printf("%lld %zu %s\n", time, philo->id, str);
-// 	pthread_mutex_unlock(&philo->info->write_lock);
-// }
-
-// void print_status(t_philo *philo, char *str)
-// {
-//     long long time;
-//     int died;
-
-//     pthread_mutex_lock(&philo->info->death_lock);
-//     died = philo->info->someone_died;
-//     pthread_mutex_unlock(&philo->info->death_lock);
-
-//     if (!died)
-//     {
-//         pthread_mutex_lock(&philo->info->write_lock);
-//         time = get_time_start() - philo->info->time_start;
-//         printf("%lld %zu %s\n", time, philo->id, str);
-//         pthread_mutex_unlock(&philo->info->write_lock);
-//     }
-// }
-
-void print_status(t_philo *philo, char *str)
+void	print_status(t_philo *philo, char *str)
 {
-    long long time;
-    int died;
+	long long	time;
 
-    // Check death flag quickly and early
-    pthread_mutex_lock(&philo->info->death_lock);
-    died = philo->info->someone_died;
-    pthread_mutex_unlock(&philo->info->death_lock);
+	if (check_death1(philo))
+		return ;
+	pthread_mutex_lock(&philo->info->write_lock);
+	time = get_time_start() - philo->info->time_start;
+	printf("%lld %zu %s\n", time, philo->id, str);
+	pthread_mutex_unlock(&philo->info->write_lock);
 
-    if (died)
-        return; // Someone died, no print
-
-    pthread_mutex_lock(&philo->info->write_lock);
-    time = get_time_start() - philo->info->time_start;
-    printf("%lld %zu %s\n", time, philo->id, str);
-    pthread_mutex_unlock(&philo->info->write_lock);
 }
 
-
-
-// void	smart_sleep(long long time, t_info *info)
-// {
-// 	long long start;
-
-// 	start = get_time_start();
-// 	while (get_time_start() - start < time)
-// 	{
-// 		pthread_mutex_lock(&info->death_lock);
-// 		if (info->someone_died == 0)
-// 		{
-// 			pthread_mutex_unlock(&info->death_lock);	
-// 			break ;
-// 		}
-// 		pthread_mutex_unlock(&info->death_lock);
-// 		usleep(100);
-// 	}
-// 	return ;
-// }
 void	smart_sleep(long long time, t_info *info)
 {
 	long long	start;
@@ -126,16 +83,14 @@ void	smart_sleep(long long time, t_info *info)
 	{
 		elapsed = get_time_start() - start;
 		if (elapsed >= time)
-			break;
-			
+			break ;
 		pthread_mutex_lock(&info->death_lock);
 		if (info->someone_died)
 		{
 			pthread_mutex_unlock(&info->death_lock);
-			break;
+			break ;
 		}
 		pthread_mutex_unlock(&info->death_lock);
-		
 		usleep(100);
 	}
 }

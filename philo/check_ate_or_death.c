@@ -6,11 +6,12 @@
 /*   By: asebban <asebban@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 17:30:11 by asebban           #+#    #+#             */
-/*   Updated: 2025/05/30 15:39:25 by asebban          ###   ########.fr       */
+/*   Updated: 2025/05/30 16:39:08 by asebban          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
+
 int	check_death(t_philo *philo, t_info *info)
 {
 	long long	current_time;
@@ -20,7 +21,6 @@ int	check_death(t_philo *philo, t_info *info)
 	current_time = get_time_start();
 	time_since_last_meal = current_time - philo->last_meal_time;
 	pthread_mutex_unlock(&info->meal_lock);
-	
 	if (time_since_last_meal >= info->time_to_die)
 	{
 		pthread_mutex_lock(&info->death_lock);
@@ -28,7 +28,8 @@ int	check_death(t_philo *philo, t_info *info)
 		{
 			info->someone_died = 1;
 			pthread_mutex_lock(&info->write_lock);
-			printf("%lld %zu died\n", current_time - info->time_start, philo->id);
+			printf("%lld %zu died\n", \
+current_time - info->time_start, philo->id);
 			pthread_mutex_unlock(&info->write_lock);
 		}
 		pthread_mutex_unlock(&info->death_lock);

@@ -6,13 +6,13 @@
 /*   By: asebban <asebban@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 11:14:27 by asebban           #+#    #+#             */
-/*   Updated: 2025/05/30 15:39:43 by asebban          ###   ########.fr       */
+/*   Updated: 2025/05/30 16:39:04 by asebban          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-static  void    set_default_values(t_info *info)
+static	void	set_default_values(t_info *info)
 {
 	info->numbers_of_philos = 0;
 	info->time_to_die = 0;
@@ -26,11 +26,13 @@ static  void    set_default_values(t_info *info)
 	info->philos = NULL;
 }
 
-t_info  *alloc_info(void)
+t_info	*alloc_info(void)
 {
-	t_info  *info = malloc(sizeof(t_info));
+	t_info	*info;
+
+	info = malloc(sizeof(t_info));
 	if (!info)
-		return NULL;
+		return (NULL);
 	set_default_values(info);
-	return info;
+	return (info);
 }
