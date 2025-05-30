@@ -6,7 +6,7 @@
 /*   By: asebban <asebban@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 14:04:00 by asebban           #+#    #+#             */
-/*   Updated: 2025/05/30 17:50:26 by asebban          ###   ########.fr       */
+/*   Updated: 2025/05/30 20:42:46 by asebban          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,38 +59,76 @@ int	ft_atoi(const char *str)
 	}
 	return ((int)nbr * sign);
 }
-
-void	print_status(t_philo *philo, char *str)
+void print_status(t_philo *philo, char *str)
 {
-	long long	time;
+    long long time;
 
-	if (check_death1(philo))
-		return ;
-	pthread_mutex_lock(&philo->info->write_lock);
-	time = get_time_start() - philo->info->time_start;
-	if (philo->info->someone_died != 1)
-		printf("%lld %zu %s\n", time, philo->id, str);
-	pthread_mutex_unlock(&philo->info->write_lock);
+    if (check_death1(philo))
+        return;
+
+    pthread_mutex_lock(&philo->info->death_lock);
+    int died = philo->info->someone_died;
+    pthread_mutex_unlock(&philo->info->death_lock);
+
+    if (died == 1)
+        return;
+
+    pthread_mutex_lock(&philo->info->write_lock);
+    time = get_time_start() - philo->info->time_start;
+    printf("%lld %zu %s\n", time, philo->id, str);
+    pthread_mutex_unlock(&philo->info->write_lock);
 }
 
+// void	print_status(t_philo *philo, char *str)
+// {
+// 	long long	time;
+
+// 	// if (check_death1(philo))
+// 	// 	return ;
+// 	pthread_mutex_lock(&philo->info->write_lock);
+// 	time = get_time_start() - philo->info->time_start;
+//     pthread_mutex_lock(&philo->info->death_lock);
+//     int died = philo->info->someone_died;
+//     pthread_mutex_unlock(&philo->info->death_lock);
+//     if (died == 1)
+//         return;
+// 	if (died != 1)
+// 		printf("%lld %zu %s\n", time, philo->id, str);
+// 	pthread_mutex_unlock(&philo->info->write_lock);
+// }
+
+// void	smart_sleep(long long time, t_info *info)
+// {
+// 	long long	start;
+// 	long long	elapsed;
+
+// 	start = get_time_start();
+// 	while (1)
+// 	{
+// 		elapsed = get_time_start() - start;
+// 		if (elapsed >= time)
+// 			break ;
+// 		pthread_mutex_lock(&info->death_lock);
+// 		if (info->someone_died)
+// 		{
+// 			pthread_mutex_unlock(&info->death_lock);
+// 			break ;
+// 		}
+// 		pthread_mutex_unlock(&info->death_lock);
+// 		usleep(100);
+// 	}
+// }
 void	smart_sleep(long long time, t_info *info)
 {
 	long long	start;
-	long long	elapsed;
 
 	start = get_time_start();
-	while (1)
+	//data race he think
+	// while (!data->someone_died)
+	while(!check_death1(info->philos))
 	{
-		elapsed = get_time_start() - start;
-		if (elapsed >= time)
+		if (get_time_start() - start >= time)
 			break ;
-		pthread_mutex_lock(&info->death_lock);
-		if (info->someone_died)
-		{
-			pthread_mutex_unlock(&info->death_lock);
-			break ;
-		}
-		pthread_mutex_unlock(&info->death_lock);
 		usleep(100);
 	}
 }

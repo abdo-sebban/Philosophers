@@ -6,7 +6,7 @@
 /*   By: asebban <asebban@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 13:40:18 by asebban           #+#    #+#             */
-/*   Updated: 2025/05/30 17:35:44 by asebban          ###   ########.fr       */
+/*   Updated: 2025/05/30 23:02:05 by asebban          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,8 @@ int	init_info(t_info *info, int ac, char **av)
 	return (0);
 }
 
+// void	join_doom
+
 int	create_threads(t_info *info)
 {
 	int			i;
@@ -66,7 +68,7 @@ int	create_threads(t_info *info)
 	{
 		if (pthread_create(&info->philos[i].thread, NULL, \
 philo_routine, &info->philos[i]))
-			return (err("Error: Thread creation failed\n"));
+			return (/*join_doomed_philos(info, i),*/ err("Error: Thread creation failed\n"));
 		i++;
 	}
 	if (pthread_create(&monitor_thread, NULL, monitor, info))

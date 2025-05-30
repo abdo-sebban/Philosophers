@@ -6,7 +6,7 @@
 /*   By: asebban <asebban@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 17:30:11 by asebban           #+#    #+#             */
-/*   Updated: 2025/05/30 17:50:36 by asebban          ###   ########.fr       */
+/*   Updated: 2025/05/30 20:10:36 by asebban          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,9 @@ int	check_death(t_philo *philo, t_info *info)
 	{
 		if (!check_death1(philo))
 		{
+			pthread_mutex_lock(&info->death_lock);
 			info->someone_died = 1;
+			pthread_mutex_unlock(&info->death_lock);
 			pthread_mutex_lock(&info->write_lock);
 			printf("%lld %zu died\n", \
 current_time - info->time_start, philo->id);
