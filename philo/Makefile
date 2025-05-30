@@ -4,7 +4,7 @@ NAME 	 = philo
 SRCS 	 = main.c utils.c utils2.c init.c ft_clean.c action.c check_ate_or_death.c init_info.c monitor.c utils3.c
 OBJS 	 = $(SRCS:.c=.o)
 CC  	 = cc
-CFLAGS	 = -Wall -Wextra -Werror #-fsanitize=thread  #-pthread
+CFLAGS	 = -Wall -Wextra -Werror -fsanitize=thread  #-pthread
 
 all: $(NAME) ascii
 

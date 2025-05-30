@@ -6,7 +6,7 @@
 /*   By: asebban <asebban@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/18 13:46:39 by asebban           #+#    #+#             */
-/*   Updated: 2025/05/30 17:22:17 by asebban          ###   ########.fr       */
+/*   Updated: 2025/05/30 17:51:15 by asebban          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,8 +57,7 @@ void	*philo_routine(void *arg)
 			drop_forks(philo);
 			break ;
 		}
-		eat(philo);
-		drop_forks(philo);
+		(eat(philo), drop_forks(philo));
 		if (has_eaten_enough(philo))
 			break ;
 		if (check_death1(philo))

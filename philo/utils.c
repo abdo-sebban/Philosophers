@@ -6,7 +6,7 @@
 /*   By: asebban <asebban@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 14:04:00 by asebban           #+#    #+#             */
-/*   Updated: 2025/05/30 17:30:59 by asebban          ###   ########.fr       */
+/*   Updated: 2025/05/30 17:50:26 by asebban          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,9 +68,9 @@ void	print_status(t_philo *philo, char *str)
 		return ;
 	pthread_mutex_lock(&philo->info->write_lock);
 	time = get_time_start() - philo->info->time_start;
-	printf("%lld %zu %s\n", time, philo->id, str);
+	if (philo->info->someone_died != 1)
+		printf("%lld %zu %s\n", time, philo->id, str);
 	pthread_mutex_unlock(&philo->info->write_lock);
-
 }
 
 void	smart_sleep(long long time, t_info *info)

@@ -6,7 +6,7 @@
 /*   By: asebban <asebban@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 17:30:11 by asebban           #+#    #+#             */
-/*   Updated: 2025/05/30 16:39:08 by asebban          ###   ########.fr       */
+/*   Updated: 2025/05/30 17:50:36 by asebban          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,7 @@ int	check_death(t_philo *philo, t_info *info)
 	pthread_mutex_unlock(&info->meal_lock);
 	if (time_since_last_meal >= info->time_to_die)
 	{
-		pthread_mutex_lock(&info->death_lock);
-		if (!info->someone_died)
+		if (!check_death1(philo))
 		{
 			info->someone_died = 1;
 			pthread_mutex_lock(&info->write_lock);
@@ -32,7 +31,6 @@ int	check_death(t_philo *philo, t_info *info)
 current_time - info->time_start, philo->id);
 			pthread_mutex_unlock(&info->write_lock);
 		}
-		pthread_mutex_unlock(&info->death_lock);
 		return (1);
 	}
 	return (0);
