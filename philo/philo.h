@@ -6,7 +6,7 @@
 /*   By: asebban <asebban@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 13:41:04 by asebban           #+#    #+#             */
-/*   Updated: 2025/05/29 11:11:37 by asebban          ###   ########.fr       */
+/*   Updated: 2025/05/30 12:08:12 by asebban          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,4 +68,7 @@ void	smart_sleep(long long time, t_info *info);
 int	check_all_ate(t_info *info);
 int	check_death(t_philo *philo, t_info *info);
 t_info  *alloc_info(void);
+void	*monitor(void *arg);
+long long get_current_time(void);
+int is_dead(t_info *info);
 #endif

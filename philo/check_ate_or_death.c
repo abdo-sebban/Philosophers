@@ -6,12 +6,11 @@
 /*   By: asebban <asebban@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 17:30:11 by asebban           #+#    #+#             */
-/*   Updated: 2025/05/29 12:54:57 by asebban          ###   ########.fr       */
+/*   Updated: 2025/05/30 15:39:25 by asebban          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
-
 int	check_death(t_philo *philo, t_info *info)
 {
 	long long	current_time;

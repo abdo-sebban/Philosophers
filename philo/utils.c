@@ -6,7 +6,7 @@
 /*   By: asebban <asebban@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 14:04:00 by asebban           #+#    #+#             */
-/*   Updated: 2025/05/29 14:57:02 by asebban          ###   ########.fr       */
+/*   Updated: 2025/05/30 15:40:37 by asebban          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,27 +98,44 @@ void print_status(t_philo *philo, char *str)
 
 
 
+// void	smart_sleep(long long time, t_info *info)
+// {
+// 	long long start;
+
+// 	start = get_time_start();
+// 	while (get_time_start() - start < time)
+// 	{
+// 		pthread_mutex_lock(&info->death_lock);
+// 		if (info->someone_died == 0)
+// 		{
+// 			pthread_mutex_unlock(&info->death_lock);	
+// 			break ;
+// 		}
+// 		pthread_mutex_unlock(&info->death_lock);
+// 		usleep(100);
+// 	}
+// 	return ;
+// }
 void	smart_sleep(long long time, t_info *info)
 {
-	long long start;
+	long long	start;
+	long long	elapsed;
 
 	start = get_time_start();
-	// while (!info->someone_died)
-	// {
-	// 	if (get_time_start() - start >= time)
-	// 		break;
-	// 	usleep(100);
-	// }
-	while (get_time_start() - start < time)
+	while (1)
 	{
+		elapsed = get_time_start() - start;
+		if (elapsed >= time)
+			break;
+			
 		pthread_mutex_lock(&info->death_lock);
-		if (info->someone_died == 0)
+		if (info->someone_died)
 		{
-			pthread_mutex_unlock(&info->death_lock);	
-			break ;
+			pthread_mutex_unlock(&info->death_lock);
+			break;
 		}
 		pthread_mutex_unlock(&info->death_lock);
+		
 		usleep(100);
 	}
-	return ;
 }

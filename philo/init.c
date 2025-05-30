@@ -6,7 +6,7 @@
 /*   By: asebban <asebban@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 17:21:17 by asebban           #+#    #+#             */
-/*   Updated: 2025/05/29 12:48:22 by asebban          ###   ########.fr       */
+/*   Updated: 2025/05/30 15:39:56 by asebban          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,6 @@ int init_philos(t_info *info)
         info->philos[i].last_meal_time = info->time_start;
         info->philos[i].left_fork = i;
         info->philos[i].right_fork = (i + 1) % info->numbers_of_philos;
-        //info->time_start;
         info->philos[i].info = info;
         i++;
     }
