@@ -6,7 +6,7 @@
 /*   By: asebban <asebban@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/18 13:46:39 by asebban           #+#    #+#             */
-/*   Updated: 2025/05/30 22:39:42 by asebban          ###   ########.fr       */
+/*   Updated: 2025/05/31 13:58:46 by asebban          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ void	*philo_routine(void *arg)
 	if (philo->info->numbers_of_philos == 1)
 		return (one_philo(philo), NULL);
 	if (philo->id % 2 == 0)
-		smart_sleep(philo->info->time_to_eat / 2, philo->info);
+		smart_sleep(philo->info->time_to_eat / 2, philo);
 	while (1)
 	{
 		if (check_death1(philo))
@@ -62,8 +62,8 @@ void	*philo_routine(void *arg)
 			break ;
 		if (check_death1(philo))
 			break ;
-		think(philo);
-		 usleep(500); 
+		(think(philo) /*usleep(500)*/);
+		// smart_sleep(1, philo);
 	}
 	return (NULL);
 }

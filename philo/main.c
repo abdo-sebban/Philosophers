@@ -6,7 +6,7 @@
 /*   By: asebban <asebban@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 13:40:18 by asebban           #+#    #+#             */
-/*   Updated: 2025/05/30 23:02:05 by asebban          ###   ########.fr       */
+/*   Updated: 2025/05/31 12:09:53 by asebban          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,14 @@ int	init_info(t_info *info, int ac, char **av)
 	return (0);
 }
 
-// void	join_doom
+void	join_in_case_fail(t_info *info, int failed_index)
+{
+	pthread_mutex_lock(&info->death_lock);
+	info->someone_died = 1;
+	pthread_mutex_lock(&info->death_lock);
+	while (--failed_index >= 0)
+		pthread_join(info->philos[failed_index].thread, NULL);
+}
 
 int	create_threads(t_info *info)
 {
@@ -68,11 +75,13 @@ int	create_threads(t_info *info)
 	{
 		if (pthread_create(&info->philos[i].thread, NULL, \
 philo_routine, &info->philos[i]))
-			return (/*join_doomed_philos(info, i),*/ err("Error: Thread creation failed\n"));
+			return (join_in_case_fail(info, i), \
+err("Error: Thread creation failed\n"));
 		i++;
 	}
 	if (pthread_create(&monitor_thread, NULL, monitor, info))
-		return (err("Error: Monitor thread creation failed\n"));
+		return (join_in_case_fail(info, info->numbers_of_philos), \
+err("Error: Monitor thread creation failed\n"));
 	i = 0;
 	while (i < info->numbers_of_philos)
 	{

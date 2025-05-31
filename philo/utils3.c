@@ -6,29 +6,11 @@
 /*   By: asebban <asebban@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 16:10:15 by asebban           #+#    #+#             */
-/*   Updated: 2025/05/30 22:47:42 by asebban          ###   ########.fr       */
+/*   Updated: 2025/05/31 13:56:40 by asebban          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
-
-// void	take_forks(t_philo *philo)
-// {
-// 	if (philo->id % 2)
-// 	{
-// 		pthread_mutex_lock(&philo->info->forks[philo->right_fork]);
-// 		print_status(philo, "has taken a fork");
-// 		pthread_mutex_lock(&philo->info->forks[philo->left_fork]);
-// 		print_status(philo, "has taken a fork");
-// 	}
-// 	else
-// 	{
-// 		pthread_mutex_lock(&philo->info->forks[philo->left_fork]);
-// 		print_status(philo, "has taken a fork");
-// 		pthread_mutex_lock(&philo->info->forks[philo->right_fork]);
-// 		print_status(philo, "has taken a fork");
-// 	}
-// }
 
 void	take_forks(t_philo *philo)
 {
@@ -37,7 +19,6 @@ void	take_forks(t_philo *philo)
 	pthread_mutex_lock(&philo->info->forks[philo->right_fork]);
 	print_status(philo, "has taken a fork");
 }
-
 
 void	eat(t_philo *philo)
 {
@@ -60,7 +41,7 @@ void	eat(t_philo *philo)
 	print_status(philo, "is eating");
 	if (check_death1(philo))
 		return ;
-	smart_sleep(info->time_to_eat, info);
+	smart_sleep(info->time_to_eat, philo);
 }
 
 void	drop_forks(t_philo *philo)
@@ -72,7 +53,7 @@ void	drop_forks(t_philo *philo)
 	print_status(philo, "is sleeping");
 	if (check_death1(philo))
 		return ;
-	smart_sleep(philo->info->time_to_sleep, philo->info);
+	smart_sleep(philo->info->time_to_sleep, philo);
 }
 
 void	think(t_philo *philo)
@@ -88,7 +69,7 @@ void	one_philo(t_philo *philo)
 {
 	pthread_mutex_lock(&philo->info->forks[philo->left_fork]);
 	print_status(philo, "has taken a fork");
-	smart_sleep(philo->info->time_to_die, philo->info);
+	smart_sleep(philo->info->time_to_die, philo);
 	pthread_mutex_lock(&philo->info->death_lock);
 	philo->info->someone_died = 0;
 	pthread_mutex_unlock(&philo->info->death_lock);

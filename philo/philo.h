@@ -6,7 +6,7 @@
 /*   By: asebban <asebban@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 13:41:04 by asebban           #+#    #+#             */
-/*   Updated: 2025/05/30 16:38:49 by asebban          ###   ########.fr       */
+/*   Updated: 2025/05/31 11:07:08 by asebban          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ int			init_mutexes(t_info *info);
 long long	get_time_start(void);
 void		print_status(t_philo *philo, char *str);
 void		*philo_routine(void *arg);
-void		smart_sleep(long long time, t_info *info);
+void		smart_sleep(long long time, t_philo *philo);
 int			check_all_ate(t_info *info);
 int			check_death(t_philo *philo, t_info *info);
 t_info		*alloc_info(void);
